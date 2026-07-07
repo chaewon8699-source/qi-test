@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #1a1a2e;
+  line-height: 1.6;
+}
+
+.hero {
+  background: linear-gradient(135deg, #6a5cff 0%, #8b7bff 50%, #a78bfa 100%);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.nav-cta {
+  color: white;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.nav-cta:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.hero-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.hero-content h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+
+.tagline {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  max-width: 560px;
+  opacity: 0.92;
+  margin-bottom: 36px;
+}
+
+.cta-button {
+  display: inline-block;
+  background: white;
+  color: #6a5cff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 14px 36px;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 32px 20px;
+}
+
+.feature-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: #6a5cff;
+}
+
+.feature-card p {
+  color: #555;
+}
+
+.get-started {
+  text-align: center;
+  padding: 80px 24px;
+  background: #f7f6ff;
+}
+
+.get-started h2 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.get-started p {
+  color: #555;
+}
+
+footer {
+  text-align: center;
+  padding: 24px;
+  color: #888;
+  font-size: 0.85rem;
+}
