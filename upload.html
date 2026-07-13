@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STL Upload Cd Prediction — CFA</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8F%8E%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero hero-compact">
+    <nav class="navbar">
+      <a class="logo" href="index.html">CFA <span class="logo-sub">Car Fluid Analyzer</span></a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="predict.html">Parameter Prediction</a></li>
+        <li><a href="upload.html" class="active">STL Upload</a></li>
+      </ul>
+      <a class="nav-cta" href="predict.html">Try Parameter Form</a>
+    </nav>
+
+    <div class="hero-content" style="padding-top:12px; padding-bottom:36px;">
+      <div class="eyebrow">Shape-aware model · PointNet</div>
+      <h1 class="page-title">Predict Cd from a 3D model</h1>
+      <p class="page-sub">Upload an STL or OBJ mesh. CFA converts it to a 100k-point cloud and runs it through PointNet to estimate Cd — capturing shape details the 26 parameters can't.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="predict-layout">
+      <div class="form-card">
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Upload STL or OBJ file">
+          <div class="dz-icon">🧊</div>
+          <h3>Drag &amp; drop your STL / OBJ here</h3>
+          <p>or click to browse · single file, up to 200MB</p>
+          <input type="file" id="file-input" accept=".stl,.obj" hidden />
+        </div>
+        <div id="file-info"></div>
+
+        <div class="submit-row">
+          <button type="button" class="btn-primary" id="upload-predict-btn" disabled>Predict Cd</button>
+          <button type="button" class="btn-secondary" id="clear-btn" style="display:none;">Clear file</button>
+          <span class="form-hint">Exterior surface geometry only is used — no color or interior detail needed.</span>
+        </div>
+      </div>
+
+      <aside class="result-panel" id="result-panel">
+        <div class="result-empty">Upload a mesh and hit <strong>Predict Cd</strong> to see a result here.</div>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 CFA · Car Fluid Analyzer. Demo mode — files are not uploaded to a server; prediction is simulated locally.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="upload.js"></script>
+</body>
+</html>

@@ -3,45 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>qi-test1</title>
+  <title>CFA — Car Fluid Analyzer</title>
+  <meta name="description" content="Predict a car's aerodynamic drag coefficient (Cd) from design parameters or a 3D model in seconds, with AI-generated design improvement suggestions." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8F%8E%EF%B8%8F%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="hero">
+  <header class="hero hero-tall">
     <nav class="navbar">
-      <div class="logo">qi-test1</div>
-      <a class="nav-cta" href="#get-started">Get Started</a>
+      <a class="logo" href="index.html">CFA <span class="logo-sub">Car Fluid Analyzer</span></a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="predict.html">Parameter Prediction</a></li>
+        <li><a href="upload.html">STL Upload</a></li>
+      </ul>
+      <a class="nav-cta" href="predict.html">Try a Prediction</a>
     </nav>
 
     <div class="hero-content">
-      <h1>qi-test1</h1>
-      <p class="tagline">A simple, fast landing page to kick off your project.</p>
-      <a class="cta-button" href="#get-started">Get Started</a>
+      <div class="eyebrow">For car aerodynamics designers</div>
+      <h1>Predict drag coefficient in seconds, not days.</h1>
+      <p class="tagline">
+        CFA is an AI surrogate for CFD. Enter your 26 design parameters or upload an STL,
+        and get an instant Cd estimate — plus concrete suggestions when drag runs high.
+      </p>
+      <div class="hero-actions">
+        <a class="cta-button" href="predict.html">Predict from Parameters</a>
+        <a class="cta-button secondary" href="upload.html">Upload STL / OBJ</a>
+      </div>
     </div>
   </header>
 
-  <section class="features" id="features">
-    <div class="feature-card">
-      <h3>Fast</h3>
-      <p>Built with plain HTML, CSS, and JS — no build step, loads instantly.</p>
+  <section class="section" id="problem">
+    <h2 class="section-title">Why CFA?</h2>
+    <p class="section-sub">
+      Every shape tweak means waiting on CFD — hours to days of supercomputer time and a
+      specialized engineering team. CFA screens designs in seconds, so you can iterate freely
+      and save full CFD runs for your shortlisted candidates.
+    </p>
+    <div class="features">
+      <div class="feature-card">
+        <h3>Parameter-based baseline</h3>
+        <p>26 design parameters in, LightGBM/XGBoost out. Fast, tabular, no 3D file required.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Shape-aware prediction</h3>
+        <p>Upload an STL/OBJ and a point-cloud deep model (PointNet) reads the actual geometry.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Confidence you can trust</h3>
+        <p>Every prediction ships with an expected error band (MAE / R²) from the official DrivAerNet++ test split.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Actionable suggestions</h3>
+        <p>When Cd runs high, CFA points to the specific geometry — bumper, ramp angle, roofline — driving it up.</p>
+      </div>
     </div>
-    <div class="feature-card">
-      <h3>Simple</h3>
-      <p>Easy to understand and extend as your project grows.</p>
+  </section>
+
+  <section class="section section-tight" id="how-it-works" style="background:var(--bg-soft);">
+    <h2 class="section-title">How it works</h2>
+    <p class="section-sub">Two ways in, one consistent result panel out.</p>
+    <div class="features">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Describe or upload your design</h3>
+        <p>Fill in the 26 vehicle design parameters, or drop an STL/OBJ mesh straight from your CAD tool.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Get a Cd estimate instantly</h3>
+        <p>The surrogate model returns a predicted drag coefficient with an error range — no simulation queue.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Act on the recommendations</h3>
+        <p>If Cd is above target, CFA lists the top contributing shape factors and what to change.</p>
+      </div>
     </div>
-    <div class="feature-card">
-      <h3>Ready</h3>
-      <p>Deploy anywhere — GitHub Pages, Vercel, Netlify, or your own server.</p>
+  </section>
+
+  <section class="section" id="target-user">
+    <h2 class="section-title">Built for aerodynamics designers</h2>
+    <p class="section-sub">
+      Not just CFD engineers — anyone shaping the car. Screen dozens of design variants in the
+      time a single CFD run would take, then send only the promising ones for full validation.
+    </p>
+    <div class="path-grid">
+      <a class="path-card" href="predict.html">
+        <span class="path-icon">📐</span>
+        <span class="tag-pill">MVP priority</span>
+        <h3>Parameter-based prediction</h3>
+        <p>26 design parameters (23 numeric + 3 categorical) → Cd via a LightGBM/XGBoost baseline.</p>
+        <span class="path-link">Start predicting →</span>
+      </a>
+      <a class="path-card" href="upload.html">
+        <span class="path-icon">🧊</span>
+        <span class="tag-pill">Shape-aware</span>
+        <h3>STL / OBJ upload</h3>
+        <p>Convert your mesh to a 100k-point cloud and predict Cd with PointNet — captures details params can't.</p>
+        <span class="path-link">Upload a model →</span>
+      </a>
     </div>
   </section>
 
   <section class="get-started" id="get-started">
-    <h2>Ready to dive in?</h2>
-    <p>Clone the repo and start building.</p>
+    <h2>Ready to check your design?</h2>
+    <p>Pick a path below — both return the same confidence-scored result panel.</p>
+    <div class="hero-actions" style="justify-content:center;">
+      <a class="cta-button" style="background:var(--brand); color:white;" href="predict.html">Predict from Parameters</a>
+      <a class="cta-button secondary" style="color:var(--brand); border-color:var(--brand-light);" href="upload.html">Upload STL / OBJ</a>
+    </div>
   </section>
 
   <footer>
-    <p>&copy; 2026 qi-test1. All rights reserved.</p>
+    <p>&copy; 2026 CFA · Car Fluid Analyzer. Trained on DrivAerNet++ (Elrefaie et al., 2024). Predictions are estimates, not a CFD replacement.</p>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

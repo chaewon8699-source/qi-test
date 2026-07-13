@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parameter-based Cd Prediction — CFA</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8F%8E%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero hero-compact">
+    <nav class="navbar">
+      <a class="logo" href="index.html">CFA <span class="logo-sub">Car Fluid Analyzer</span></a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="predict.html" class="active">Parameter Prediction</a></li>
+        <li><a href="upload.html">STL Upload</a></li>
+      </ul>
+      <a class="nav-cta" href="upload.html">Try STL Upload</a>
+    </nav>
+
+    <div class="hero-content" style="padding-top:12px; padding-bottom:36px;">
+      <div class="eyebrow">Baseline model · LightGBM / XGBoost</div>
+      <h1 class="page-title">Predict Cd from design parameters</h1>
+      <p class="page-sub">Enter your 26 vehicle design parameters below. Values default to a typical mid-size sedan — adjust the ones you're iterating on.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="predict-layout">
+      <form class="form-card" id="predict-form">
+
+        <div class="form-group-title">Body type &amp; category</div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="carType">Car type</label>
+            <select id="carType" name="carType">
+              <option value="fastback">Fastback</option>
+              <option value="notchback">Notchback</option>
+              <option value="estateback">Estateback</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="underbody">Underbody type</label>
+            <select id="underbody" name="underbody">
+              <option value="flat">Flat underbody</option>
+              <option value="standard">Standard underbody</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="wheelDesign">Wheel design</label>
+            <select id="wheelDesign" name="wheelDesign">
+              <option value="aero">Aero-optimized</option>
+              <option value="standard">Standard</option>
+              <option value="sport">Open-spoke sport</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group-title">Overall dimensions</div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="carLength">Car length <span class="unit">mm</span></label>
+            <input type="number" id="carLength" name="carLength" min="4200" max="5000" value="4700" step="10" />
+          </div>
+          <div class="field">
+            <label for="carWidth">Car width <span class="unit">mm</span></label>
+            <input type="number" id="carWidth" name="carWidth" min="1750" max="2000" value="1850" step="5" />
+          </div>
+          <div class="field">
+            <label for="carRoofHeight">Car roof height <span class="unit">mm</span></label>
+            <input type="number" id="carRoofHeight" name="carRoofHeight" min="1350" max="1550" value="1450" step="5" />
+          </div>
+          <div class="field">
+            <label for="wheelbase">Wheelbase <span class="unit">mm</span></label>
+            <input type="number" id="wheelbase" name="wheelbase" min="2600" max="3000" value="2800" step="10" />
+          </div>
+          <div class="field">
+            <label for="frontOverhang">Front overhang <span class="unit">mm</span></label>
+            <input type="number" id="frontOverhang" name="frontOverhang" min="800" max="1000" value="900" step="5" />
+          </div>
+          <div class="field">
+            <label for="rearOverhang">Rear overhang <span class="unit">mm</span></label>
+            <input type="number" id="rearOverhang" name="rearOverhang" min="900" max="1100" value="1000" step="5" />
+          </div>
+          <div class="field">
+            <label for="groundClearance">Ground clearance <span class="unit">mm</span></label>
+            <input type="number" id="groundClearance" name="groundClearance" min="120" max="180" value="150" step="2" />
+          </div>
+        </div>
+
+        <div class="form-group-title">Windscreen &amp; greenhouse</div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="windscreenLength">Windscreen length <span class="unit">mm</span></label>
+            <input type="number" id="windscreenLength" name="windscreenLength" min="900" max="1200" value="1050" step="5" />
+          </div>
+          <div class="field">
+            <label for="windscreenWidth">Windscreen width <span class="unit">mm</span></label>
+            <input type="number" id="windscreenWidth" name="windscreenWidth" min="1300" max="1600" value="1450" step="5" />
+          </div>
+          <div class="field">
+            <label for="windscreenIncl">Windscreen inclination <span class="unit">deg</span></label>
+            <div class="range-row">
+              <input type="range" id="windscreenIncl" name="windscreenIncl" min="25" max="40" value="32" step="0.5" oninput="this.nextElementSibling.textContent=this.value+'°'" />
+              <span class="range-value">32°</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="aPillarThickness">A-pillar thickness <span class="unit">mm</span></label>
+            <input type="number" id="aPillarThickness" name="aPillarThickness" min="30" max="70" value="45" step="1" />
+          </div>
+        </div>
+
+        <div class="form-group-title">Rear end</div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="rearWindowLength">Rear window length <span class="unit">mm</span></label>
+            <input type="number" id="rearWindowLength" name="rearWindowLength" min="700" max="1000" value="850" step="5" />
+          </div>
+          <div class="field">
+            <label for="rearWindowIncl">Rear window inclination <span class="unit">deg</span></label>
+            <div class="range-row">
+              <input type="range" id="rearWindowIncl" name="rearWindowIncl" min="20" max="45" value="30" step="0.5" oninput="this.nextElementSibling.textContent=this.value+'°'" />
+              <span class="range-value">30°</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="trunklidLength">Trunklid length <span class="unit">mm</span></label>
+            <input type="number" id="trunklidLength" name="trunklidLength" min="900" max="1300" value="1100" step="5" />
+          </div>
+          <div class="field">
+            <label for="trunklidAngle">Trunklid angle <span class="unit">deg</span></label>
+            <div class="range-row">
+              <input type="range" id="trunklidAngle" name="trunklidAngle" min="5" max="20" value="12" step="0.5" oninput="this.nextElementSibling.textContent=this.value+'°'" />
+              <span class="range-value">12°</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="rampAngle">Ramp angle <span class="unit">deg</span></label>
+            <div class="range-row">
+              <input type="range" id="rampAngle" name="rampAngle" min="10" max="25" value="16" step="0.5" oninput="this.nextElementSibling.textContent=this.value+'°'" />
+              <span class="range-value">16°</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="diffusorAngle">Diffusor angle <span class="unit">deg</span></label>
+            <div class="range-row">
+              <input type="range" id="diffusorAngle" name="diffusorAngle" min="0" max="15" value="6" step="0.5" oninput="this.nextElementSibling.textContent=this.value+'°'" />
+              <span class="range-value">6°</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group-title">Front end</div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="bumperLength">Front bumper length <span class="unit">mm</span></label>
+            <input type="number" id="bumperLength" name="bumperLength" min="300" max="600" value="450" step="5" />
+          </div>
+          <div class="field">
+            <label for="bumperCurvature">Front bumper curvature <span class="unit">0–1</span></label>
+            <div class="range-row">
+              <input type="range" id="bumperCurvature" name="bumperCurvature" min="0" max="1" value="0.5" step="0.05" oninput="this.nextElementSibling.textContent=this.value" />
+              <span class="range-value">0.5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group-title">Mirrors &amp; details</div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="mirrorX">Side mirror position — x <span class="unit">mm</span></label>
+            <input type="number" id="mirrorX" name="mirrorX" min="1700" max="1900" value="1800" step="5" />
+          </div>
+          <div class="field">
+            <label for="mirrorZ">Side mirror position — z <span class="unit">mm</span></label>
+            <input type="number" id="mirrorZ" name="mirrorZ" min="1100" max="1300" value="1200" step="5" />
+          </div>
+          <div class="field">
+            <label for="doorHandleX">Door handle position — x <span class="unit">mm</span></label>
+            <input type="number" id="doorHandleX" name="doorHandleX" min="1200" max="1600" value="1400" step="5" />
+          </div>
+          <div class="field">
+            <label for="doorHandleZ">Door handle position — z <span class="unit">mm</span></label>
+            <input type="number" id="doorHandleZ" name="doorHandleZ" min="700" max="900" value="800" step="5" />
+          </div>
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn-primary" id="predict-btn">Predict Cd</button>
+          <button type="reset" class="btn-secondary" id="reset-btn">Reset to defaults</button>
+          <span class="form-hint">23 numeric + 3 categorical parameters, matching the DrivAerNet++ schema.</span>
+        </div>
+      </form>
+
+      <aside class="result-panel" id="result-panel">
+        <div class="result-empty">Fill in the parameters and hit <strong>Predict Cd</strong> to see a result here.</div>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 CFA · Car Fluid Analyzer. Baseline predictions are a demo mock — swap in the trained LightGBM/XGBoost model for production values.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="predict.js"></script>
+</body>
+</html>
