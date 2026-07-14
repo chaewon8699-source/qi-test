@@ -240,4 +240,19 @@ function cdBadgeClass(cd) {
   return "badge-high";
 }
 
+/* ---------- User greeting (reads `users` table via backend) ---------- */
+function initUserGreeting() {
+  const el = document.getElementById("user-greeting");
+  if (!el) return;
+  fetch(`${API_BASE}/api/users`)
+    .then((r) => r.json())
+    .then((users) => {
+      if (Array.isArray(users) && users.length) {
+        el.textContent = `Welcome, ${users[0].name}`;
+      }
+    })
+    .catch((err) => console.warn("initUserGreeting failed:", err));
+}
+
 document.addEventListener("DOMContentLoaded", initNav);
+document.addEventListener("DOMContentLoaded", initUserGreeting);

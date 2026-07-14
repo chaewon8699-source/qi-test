@@ -8,6 +8,18 @@ app.use(express.json());
 
 app.get("/health", (req, res) => res.json({ ok: true }));
 
+app.get("/api/users", async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      "SELECT id, email, name FROM users ORDER BY id LIMIT 50"
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "failed to fetch users" });
+  }
+});
+
 app.get("/api/predictions", async (req, res) => {
   try {
     const { rows } = await pool.query(

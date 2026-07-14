@@ -99,6 +99,13 @@ img {
   border-bottom: 2px solid white;
 }
 
+.user-greeting {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 .nav-cta {
   color: var(--brand);
   background: white;
