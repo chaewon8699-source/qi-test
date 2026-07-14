@@ -130,6 +130,7 @@
     setTimeout(() => {
       const result = predictCdFromFile(currentFile);
       renderResult(result);
+      logPrediction(result, null);
       predictBtn.disabled = false;
       predictBtn.textContent = "Predict Cd";
     }, 1300);

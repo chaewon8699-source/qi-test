@@ -13,6 +13,26 @@
 const CD_TARGET_THRESHOLD = 0.26; // above this, we surface recommendations
 const CD_DATASET_RANGE = { min: 0.20, max: 0.32, mean: 0.254 };
 
+/* Backend API that persists prediction results to Postgres
+   (see server/ — separate Render Web Service, not this static site) */
+const API_BASE = "https://qi-test-api.onrender.com";
+
+/* Fire-and-forget: log a prediction result to the backend.
+   Never blocks or breaks the UI if the API is unreachable. */
+function logPrediction(result, carType) {
+  fetch(`${API_BASE}/api/predictions`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      source: result.source,
+      carType: carType ?? null,
+      predictedCd: result.cd,
+      mae: result.mae,
+      r2: result.r2,
+    }),
+  }).catch((err) => console.warn("logPrediction failed:", err));
+}
+
 /* Baseline mean Cd per body type, from the team's own EDA
    (see slide "Estateback designs have clearly higher drag") */
 const BODY_TYPE_BASELINE = {

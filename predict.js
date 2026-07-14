@@ -101,6 +101,7 @@
     setTimeout(() => {
       const result = predictCdFromParams(params);
       renderResult(result);
+      logPrediction(result, params.carType);
       btn.disabled = false;
       btn.textContent = "Predict Cd";
     }, 900);
